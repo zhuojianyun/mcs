@@ -1,0 +1,44 @@
+<ul class="comments">
+    {% for insurance in insurancese %}
+    <li class="comment">
+        <div class="comment-thumbnail">
+
+        </div>
+
+        <div class="insurance-content">
+            <div class="insurance-date">{{ moment(insurance.timestamp).fromNow() }}</div>
+            <div class="insurance-author">第次跟进</div>
+            <div class="insurance-body">
+
+
+                <div class="label label-default">
+                    {% if form.insurname %}
+                     险种--{{ insurance.insurname }}
+                    {% endif %}
+                </div>
+				 <div class="label label-default">
+                    {% if form.toubaoriqi %}
+                     投保日期--{{ insurance.toubaoriqi }}
+                    {% endif %}
+                </div>
+
+
+
+            {% if moderate %}
+                <br>
+                {% if comment.disabled %}
+                <a class="btn btn-default btn-xs" href="{{ url_for('.moderate_enable', id=comment.id, page=page) }}">Enable</a>
+                {% else %}
+                <a class="btn btn-danger btn-xs" href="{{ url_for('.moderate_disable', id=comment.id, page=page) }}">Disable</a>
+                {% endif %}
+            {% endif %}
+
+        </div>
+        <div class="comment-footer">
+                <a href="{{ url_for('.editii', id=insurance.id) }}">
+                    <span class="label label-danger">编辑</span>
+                </a>
+            </div>
+    </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,89 @@
+<ul class="comments">
+    {% for comment in comments %}
+    <li class="comment">
+        <div class="comment-thumbnail">
+            <a href="{{ url_for('.user', username=comment.author.username) }}">
+                <img class="img-rounded profile-thumbnail" src="{{ comment.author.gravatar(size=40) }}">
+            </a>
+        </div>
+        <div class="comment-content">
+            <div class="comment-date">{{ moment(comment.timestamp).fromNow() }}</div>
+            <div class="comment-author">第{{ comment.meettimese }}次跟进</div>
+            <div class="comment-body">
+
+                <div class="labell">
+                 {% if form.meetway %}
+                     沟通方式--{{ comment.meetway }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.meetcase %}
+                     沟通借口--{{ comment.meetcase }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.badthing %}
+                     本次不足--{{ comment.badthing }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.dongthing %}
+                     本次收获--{{ comment.dongthing }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.thisthink %}
+                     本次沟通保险观念--{{ comment.thisthink }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.fation %}
+                     客户反馈--{{ comment.fation }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.newabout %}
+                     新获取信息--{{ comment.newabout }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.nexttime %}
+                     {{ comment.nexttime }}天内要再次联系！
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.planbook %}
+                     有做了计划书见客户
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.todo %}
+                     下一步计划--{{ comment.todo }}
+                    {% endif %}
+                </div>
+
+                <div class="labell">
+                    {% if form.meetdate %}
+                     拜访日期--{{ comment.meetdate }}
+                    {% endif %}
+                </div>
+
+            </div>
+            {% if moderate %}
+                <br>
+                {% if comment.disabled %}
+                <a class="btn btn-default btn-xs" href="{{ url_for('.moderate_enable', id=comment.id, page=page) }}">Enable</a>
+                {% else %}
+                <a class="btn btn-danger btn-xs" href="{{ url_for('.moderate_disable', id=comment.id, page=page) }}">Disable</a>
+                {% endif %}
+            {% endif %}
+
+        </div>
+        <div class="comment-footer">
+                <a href="{{ url_for('.editcc', id=comment.id) }}">
+                    <span class="label label-danger">编辑</span>
+                </a>
+            </div>
+    </li>
+    {% endfor %}
+</ul>
