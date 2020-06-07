@@ -117,7 +117,7 @@ def edit_profile_admin(id):
 @main.route('/post/<int:id>', methods=['GET', 'POST'])
 def post(id):
     post = Post.query.get_or_404(id)
-    form = CommentForm1()
+    form = CommentForm()
     if form.validate_on_submit():
         comment = Comment(meetway=form.meetway.data,meetcase=form.meetcase.data,\
                           meetdate=form.meetdate.data,
@@ -142,6 +142,34 @@ def post(id):
                            comments=comments, pagination=pagination)
 
 
+@main.route('/post2/<int:id>', methods=['GET', 'POST'])
+def post2(id):
+    post = Post.query.get_or_404(id)
+    form = CommentForm1()
+    if form.validate_on_submit():
+        comment = Comment(meetway=form.meetway.data,meetcase=form.meetcase.data,\
+                          meetdate=form.meetdate.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment has been published.')
+        return redirect(url_for('.post2', id=post.id, page=-1))
+    page = request.args.get('page', 1, type=int)
+    if page == -1:
+        page = (post.comments.count() - 1) // \
+            current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
+    pagination = post.comments.order_by(Comment.timestamp.asc()).paginate(
+        page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+        error_out=False)
+    comments = pagination.items
+
+    ### 问题1：怎么让不同的表单在同一个网页中传递给两个视窗函数？
+
+    return render_template('post2.html', posts=[post], form=form,
+                           comments=comments, pagination=pagination)
+
+
 
 @main.route('/post1/<int:id>', methods=['GET', 'POST'])
 def insurance(id):
@@ -151,8 +179,8 @@ def insurance(id):
     if form.validate_on_submit():
         insurance = Insurance(insurname=form.insurname.data,toubaoriqi=form.toubaoriqi.data,\
                           baofei=form.baofei.data,baoer=form.baoer.data, \
-                          post=post)
-                          #author=current_user._get_current_object())
+                          post=post,
+                          author=current_user._get_current_object())
         db.session.add(insurance)
         db.session.commit()
         flash('你的保单已经提交！')
@@ -175,7 +203,7 @@ def edit(id):
         abort(403)
     form = PostForm1()
     if form.validate_on_submit():
-        #post.body = form.body.data
+       #post.body = form.body.data
         post.name = form.name.data
         post.phnumber = form.phnumber.data
         post.career = form.career.data
@@ -224,15 +252,20 @@ def editcc(id):
     #form = PostForm1()
     form = CommentForm()
     if form.validate_on_submit():
-        comment = Comment(meetway=form.meetway.data, meetcase=form.meetcase.data, \
-                          meetdate=form.meetdate.data, meetadress=form.meetadress.data, \
-                          meettimese=form.meettimese.data, beetway=form.beetway.data, \
-                          newsabout=form.newsabout.data, thisthink=form.thisthink.data, \
-                          fation=form.fation.data, planbook=form.planbook.data, \
-                          badthing=form.badthing.data, donething=form.donething.data, \
-                          nexttime=form.nexttime.data, todo=form.todo.data, \
-                          post=post,\
-                          author=current_user._get_current_object())
+        comment.meetway = form.meetway.data
+        comment.meetcase = form.meetcase.data
+        comment.meetdate = form.meetdate.data
+        comment.meetadress = form.meetadress.data
+        comment.meettimese = form.meettimese.data
+        comment.beetway = form.beetway.data
+        comment.newsabout = form.newsabout.data
+        comment.thisthink=form.thisthink.data
+        comment.fation = form.fation.data
+        comment.planbook = form.planbook.data
+        comment.badthing = form.badthing.data
+        comment.donething = form.donething.data
+        comment.nexttime = form.nexttime.data
+        comment.todo = form.todo.data
 
         db.session.add(comment)
         db.session.commit()
@@ -267,20 +300,29 @@ def editii(id):
     #form = PostForm1()
     form = InsuranceForm()
     if form.validate_on_submit():
-        insurance = Insurance(insurname = form.insurname.data, baodanhao = form.baodanhao.data,\
-                              toubaoriqi = form.toubaoriqi.data, shengxiaoriqi = form.shengxiaoriqi.data,\
-                              baodanzhuangtai = form.baodanzhuangtai.data, jiaofeifangshi = form.jiaofeifangshi.data,\
-                              jiaofeiqi = form.jiaofeiqi.data, baoxianqijian = form.baoxianqijian.data,\
-                              shixiaoriqi = form.shixiaoriqi.data, baofei = form.baofei.data, baoer = form.baoer.data,\
-                              banknumber = form.banknumber.data, bankname = form.bankname.data, nextgetmoney = form.nextgetmoney.data,\
-                              bbname =  form.bbname.data, syname =  form.syname.data, jjname = form.syname.data, \
-                              post=post,
-                              author=current_user._get_current_object())
+        insurname = form.insurname.data
+        baodanhao = form.baodanhao.data
+        toubaoriqi = form.toubaoriqi.data
+        shengxiaoriqi = form.shengxiaoriqi.data
+        baodanzhuangtai = form.baodanzhuangtai.data
+        jiaofeifangshi = form.jiaofeifangshi.data
+        jiaofeiqi = form.jiaofeiqi.data
+        baoxianqijian = form.baoxianqijian.data
+        shixiaoriqi = form.shixiaoriqi.data
+        baofei = form.baofei.data
+        baoer = form.baoer.data
+        banknumber = form.banknumber.data
+        bankname = form.bankname.data
+        nextgetmoney = form.nextgetmoney.data
+        tbname =  form.tbname.data
+        bbname =  form.bbname.data
+        syname =  form.syname.data
+        jjname = form.syname.data
 
         db.session.add(insurance)
         db.session.commit()
         flash('The post has been updated.')
-        return redirect(url_for('.insurance', id=insurance.id))
+        return redirect(url_for('.editii', id=insurance.id))
 
     form.insurname.data = insurance.insurname
     form.baodanhao.data = insurance.baodanhao
@@ -296,7 +338,7 @@ def editii(id):
     form.banknumber.data = insurance.banknumber
     form.bankname.data = insurance.bankname
     form.nextgetmoney.data=insurance.nextgetmoney
-    #form.tbname.data = insurance.tbname
+    form.tbname.data = insurance.tbname
     form.bbname.data = insurance.bbname
     form.syname.data = insurance.syname
     form.syname.data = insurance.jjname

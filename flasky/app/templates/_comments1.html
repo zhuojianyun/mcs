@@ -11,14 +11,79 @@
             <div class="insurance-body">
 
 
-                <div class="label label-default">
+                <div class="labell">
                     {% if form.insurname %}
                      险种--{{ insurance.insurname }}
                     {% endif %}
                 </div>
-				 <div class="label label-default">
+                <div class="labell">
                     {% if form.toubaoriqi %}
                      投保日期--{{ insurance.toubaoriqi }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.shengxiaoriqi %}
+                     生效期--{{ insurance.shengxiaoriqi }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.baodanzhuangtai %}
+                     保单状态--{{ insurance.baodanzhuangtai }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.jiaofeifangshi %}
+                     缴费方式--{{ insurance.jiaofeifangshi }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.jiaofeiqi %}
+                     缴费期--{{ insurance.jiaofeiqi }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.baoxianqijian %}
+                     保险期间--{{ insurance.baoxianqijian }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.baofei %}
+                     保费--{{ insurance.baofei }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.baoer %}
+                     保额--{{ insurance.baoer }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.bankname %}
+                     缴费银行--{{ insurance.bankname }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.banknumber %}
+                     银行账户--{{ insurance.banknumber }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.nextgetmoney %}
+                     下一次领钱：{{ insurance.nextgetmoney }}年后
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.bbname %}
+                     被保人--{{ insurance.bbname }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.syname %}
+                     收益人--{{ insurance.syname }}
+                    {% endif %}
+                </div>
+                <div class="labell">
+                    {% if form.jjname %}
+                     紧急联系人--{{ insurance.jjname }}
                     {% endif %}
                 </div>
 

@@ -6,11 +6,9 @@
 
 {% block page_content %}
 {% include '_posts.html' %}
-<h4 id="comments">Comments</h4>
+<h4 id="comments">
 {% if current_user.can(Permission.COMMENT) %}
-<div class="comment-form">
-    {{ wtf.quick_form(form) }}
-</div>
+<a href="{{ url_for('main.post2',id=posts[0].id) }}">添加新拜访记录</a></h4>
 {% endif %}
 {% include '_comments.html' %}
 {% if pagination %}
